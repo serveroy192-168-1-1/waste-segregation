@@ -901,19 +901,168 @@
     30% { transform: translateY(-6px); }
   }
 
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
+  /* ===== MOBILE NAV HAMBURGER ===== */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 6px; border: none; background: transparent;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--black); border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* Mobile drawer */
+  .mobile-drawer {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 99; background: rgba(0,0,0,0.5);
+  }
+  .mobile-drawer.open { display: block; }
+  .mobile-drawer-inner {
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 280px; background: var(--white);
+    padding: 80px 32px 40px;
+    display: flex; flex-direction: column; gap: 8px;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+    animation: slideDrawer 0.28s ease;
+  }
+  @keyframes slideDrawer {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  .drawer-link {
+    padding: 14px 16px; border-radius: 14px;
+    font-size: 1rem; font-weight: 500; color: var(--black);
+    text-decoration: none; border: none; background: transparent;
+    cursor: pointer; text-align: left; font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+  .drawer-link:hover, .drawer-link.active { background: var(--light); }
+  .drawer-cta {
+    background: var(--black) !important; color: var(--white) !important;
+    margin-top: 8px; border-radius: 50px !important;
+    text-align: center !important;
+  }
+
+  /* Bottom mobile nav */
+  .bottom-nav {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 98;
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(0,0,0,0.08);
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    justify-content: space-around; align-items: center;
+  }
+  .bottom-nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 6px 12px; border: none; background: transparent;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    color: var(--grey); transition: color 0.2s; flex: 1;
+  }
+  .bottom-nav-item.active { color: var(--black); }
+  .bottom-nav-item .bnav-icon { font-size: 1.3rem; }
+  .bottom-nav-item .bnav-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.3px; }
+  .bottom-nav-item.active .bnav-icon { transform: translateY(-2px); }
+
+  /* ===== FULL RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    /* Nav */
+    nav { padding: 14px 20px; }
     .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; padding: 40px 24px; gap: 48px; }
-    .bins-showcase { transform: none; }
-    .bins-grid { grid-template-columns: 1fr; }
-    .rules-grid { grid-template-columns: 1fr; }
+    .hamburger { display: flex; }
+
+    /* Bottom nav */
+    .bottom-nav { display: flex; }
+
+    /* Add padding so content isn't behind bottom nav */
+    .page { padding-bottom: 80px; }
+
+    /* Hero */
+    .hero {
+      grid-template-columns: 1fr; padding: 32px 20px 40px;
+      gap: 36px; min-height: unset;
+    }
+    .hero h1 { font-size: 2.4rem; letter-spacing: -1px; }
+    .hero p { font-size: 1rem; }
+    .hero-actions { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 16px 24px; }
+    .bins-showcase { grid-template-columns: 1fr 1fr; transform: none; gap: 12px; }
+    .bin-card { padding: 20px 16px; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    .hero::before { display: none; }
+
+    /* Guide */
+    .guide-header { padding: 48px 20px 36px; }
+    .guide-header::before { display: none; }
+    .bins-grid { grid-template-columns: 1fr; gap: 1px; }
+    .bin-section { padding: 36px 20px; }
+
+    /* Finder */
+    .finder-section { padding: 40px 20px; }
+    .finder-section h2 { font-size: 2rem; }
+    .search-input { font-size: 0.9rem; padding: 16px 60px 16px 18px; }
+    .categories-tabs { gap: 8px; }
+    .cat-tab { padding: 8px 16px; font-size: 0.8rem; }
+    .items-grid { grid-template-columns: 1fr; }
+    .search-result-highlight.show { flex-direction: column; gap: 16px; }
+
+    /* Rules */
+    .rules-hero { padding: 48px 20px 36px; }
+    .rules-hero h2 { font-size: 2rem; }
+    .rules-grid { grid-template-columns: 1fr; padding: 32px 20px; gap: 16px; }
+    .rule-card { padding: 28px 24px; }
+    .do-dont-section { padding: 0 20px 40px; }
     .do-dont-grid { grid-template-columns: 1fr; }
-    .quiz-options { grid-template-columns: 1fr; }
-    .guide-header, .finder-section, .rules-hero, .rules-grid, .do-dont-section { padding-left: 24px; padding-right: 24px; }
-    .quiz-section { padding: 40px 24px; }
-    .quiz-card { padding: 28px; }
+
+    /* Quiz */
+    .quiz-section { padding: 32px 20px; }
+    .quiz-section h2 { font-size: 2rem; }
+    .quiz-card { padding: 24px 20px; }
+    .quiz-options { grid-template-columns: 1fr; gap: 10px; }
+    .quiz-option { padding: 14px 16px; }
+    .quiz-score { font-size: 4rem; }
+
+    /* AI page */
+    .ai-hero { padding: 48px 20px 36px; }
+    .ai-hero h2 { font-size: 2rem; letter-spacing: -1px; }
+    .ai-hero-grid { grid-template-columns: 1fr; }
+    .ai-features-tabs { padding: 0 20px; overflow-x: auto; white-space: nowrap; gap: 0; }
+    .ai-tab { padding: 14px 18px; font-size: 0.82rem; flex-shrink: 0; }
+    .ai-panel { padding: 24px 20px; }
+
+    /* API key banner */
+    #apiKeyBanner { padding: 24px 20px; }
+    #apiKeyBanner > div { padding: 24px 20px; }
+    #apiKeyBanner input { width: 100%; }
+    #apiKeyBanner > div > div:nth-child(4) { flex-direction: column; }
+
+    /* Classifier */
+    .classifier-layout { grid-template-columns: 1fr; gap: 24px; }
+    .classifier-result { min-height: 160px; }
+
+    /* Chat */
+    .chat-layout { grid-template-columns: 1fr; gap: 20px; }
+    .chat-sidebar { display: none; }
+    .chat-window { height: 320px; padding: 16px; }
+    .chat-msg { max-width: 92%; }
+
+    /* AI Quiz gen */
+    .aiquiz-controls { grid-template-columns: 1fr; }
+    .gen-quiz-btn { grid-column: span 1; }
+    .ai-quiz-area { padding: 24px 20px; }
+    .ai-q-options { grid-template-columns: 1fr; }
+
+    /* Footer */
+    footer { padding: 32px 20px; }
+  }
+
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 2rem; }
+    .bins-showcase { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bin-card { padding: 16px 12px; }
+    .bin-icon { font-size: 2rem; }
   }
 </style>
 </head>
@@ -933,7 +1082,50 @@
     <li><a href="#" onclick="showPage('quiz');setActive(this)">Take Quiz</a></li>
     <li><a href="#" class="nav-cta" onclick="showPage('ai');setActive(this)">✨ AI Assistant</a></li>
   </ul>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleDrawer()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer" onclick="closeDrawer(event)">
+  <div class="mobile-drawer-inner">
+    <button class="drawer-link" onclick="showPage('home');closeDrawer()">🏠 Home</button>
+    <button class="drawer-link" onclick="showPage('guide');closeDrawer()">🎨 Colour Guide</button>
+    <button class="drawer-link" onclick="showPage('finder');closeDrawer()">🔍 Waste Finder</button>
+    <button class="drawer-link" onclick="showPage('rules');closeDrawer()">📋 Rules & Safety</button>
+    <button class="drawer-link" onclick="showPage('quiz');closeDrawer()">🧠 Take Quiz</button>
+    <button class="drawer-link drawer-cta" onclick="showPage('ai');closeDrawer()">✨ AI Assistant</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV (mobile) -->
+<div class="bottom-nav" id="bottomNav">
+  <button class="bottom-nav-item active" onclick="showPage('home');setBottomNav(this)">
+    <span class="bnav-icon">🏠</span>
+    <span class="bnav-label">Home</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('guide');setBottomNav(this)">
+    <span class="bnav-icon">🎨</span>
+    <span class="bnav-label">Guide</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('finder');setBottomNav(this)">
+    <span class="bnav-icon">🔍</span>
+    <span class="bnav-label">Finder</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('rules');setBottomNav(this)">
+    <span class="bnav-icon">📋</span>
+    <span class="bnav-label">Rules</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('quiz');setBottomNav(this)">
+    <span class="bnav-icon">🧠</span>
+    <span class="bnav-label">Quiz</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('ai');setBottomNav(this)">
+    <span class="bnav-icon">✨</span>
+    <span class="bnav-label">AI</span>
+  </button>
+</div>
 
 <!-- PAGE 1: HOME -->
 <div class="page active" id="page-home">
@@ -1699,20 +1891,22 @@ async function classifyWaste() {
   result.className = 'classifier-result';
   result.innerHTML = `<div class="ai-loader"><div class="ai-loader-dots"><span></span><span></span><span></span></div><div>AI is analysing your waste item…</div></div>`;
 
-  const systemPrompt = `You are a biomedical waste classification expert based on India's BMW Management & Handling Rules 2016. 
-Classify waste items into exactly one of these four bins:
-- YELLOW: Infectious/hazardous waste (anatomical, soiled dressings, expired medicines, lab waste, body fluids)
-- RED: Contaminated recyclable plastic (syringes without needles, IV tubes, gloves, catheters, oxygen masks)
-- BLUE: Sharps and glass (needles, scalpels, blades, glass ampoules, broken glass)
-- GREEN: General non-hazardous waste (food, paper, uncontaminated packaging, flowers)
+  const systemPrompt = `You are the Smart Waste Classifier for MediWaste Guide, a healthcare waste segregation app for India based on BMW (Biomedical Waste) Management & Handling Rules 2016.
 
-Respond ONLY with valid JSON in this exact format:
+The app uses 4 colour-coded bins:
+- YELLOW: Infectious/hazardous waste — human anatomical waste, animal waste, soiled dressings/bandages (blood-soaked cotton, gauze), expired medicines including cytotoxic drugs, microbiology/lab waste (cultures, specimens, blood bags, pathological waste), contaminated urine/drainage bags, placenta, body fluids, secretions.
+- RED: Contaminated recyclable plastic — syringes WITHOUT needles, IV tubing and blood transfusion sets, catheters (urinary/cardiac), uncontaminated urine drainage bags, used disposable gloves, contaminated plastic items, oxygen masks and tubing, disposable face masks.
+- BLUE (puncture-proof container): Sharps and glass — needles and syringes WITH needles, scalpels/surgical blades, disposable scissors/forceps, glass ampoules and vials (broken or unbroken), metals from implants (wires/pins), broken glass slides, coverslips, capillary tubes.
+- GREEN (black bag): General non-hazardous waste — food waste, flowers/plant waste, cardboard/paper packaging (uncontaminated), newspaper, administrative paper, disposable dishes from cafeteria, dust/sweepings from non-clinical areas, outer packaging of sterile items (not opened near patient).
+
+Classify the described waste item into exactly one of these bins.
+Respond ONLY with valid JSON in this exact format, no markdown:
 {
   "bin": "yellow|red|blue|green",
-  "itemName": "short name for the item",
-  "reason": "2-3 sentence explanation of why this bin",
-  "steps": ["Step 1 action", "Step 2 action", "Step 3 action"],
-  "warning": "any safety warning or null"
+  "itemName": "short descriptive name for the item",
+  "reason": "2-3 sentence explanation referencing BMW Rules 2016 if relevant",
+  "steps": ["Step 1 disposal action", "Step 2 action", "Step 3 action"],
+  "warning": "important safety warning string, or null if none"
 }`;
 
   try {
@@ -1812,11 +2006,38 @@ async function sendChat() {
   appendMessage('user', msg);
   showTyping();
 
-  const systemPrompt = `You are MediWaste AI, a friendly and expert healthcare waste management assistant. 
-You are helping a ${chatRole} understand biomedical waste segregation based on India's BMW Management & Handling Rules 2016.
-Be concise, clear, and practical. Use simple language for patients, more technical for staff.
-Key bins: Yellow (infectious/hazardous), Red (contaminated recyclable plastic), Blue (sharps/glass), Green (general waste).
-Keep responses under 150 words. Use bullet points only when listing items. Be helpful and reassuring.`;
+  const systemPrompt = `You are MediWaste AI, the built-in assistant for the MediWaste Guide — a multi-page healthcare waste segregation website built for healthcare staff and patients in India.
+
+ABOUT THIS APP:
+The MediWaste Guide is a web application that teaches proper biomedical waste segregation based on India's Biomedical Waste (BMW) Management & Handling Rules 2016. It is designed for two audiences: healthcare staff (doctors, nurses, ward boys, lab technicians, waste handlers) and patients/visitors. The app has 6 pages:
+
+1. HOME PAGE: Introduction to the app with animated bin cards, key stats (4 bin categories, 50+ waste items, 100% based on BMW Rules 2016), and navigation to other sections.
+
+2. COLOUR GUIDE PAGE: Detailed reference showing all 4 bin categories and what goes in each:
+   - YELLOW BIN (Infectious/Hazardous): Human anatomical waste (body parts, tissues, organs), animal anatomical waste, soiled bandages and dressings (blood-soaked cotton, gauze), expired or discarded medicines (including cytotoxic drugs), microbiology and lab waste (cultures, specimens, blood bags), urine bags and drainage bags (if contaminated), placenta and body fluids.
+   - RED BIN (Contaminated Recyclable Plastic): Syringes without needles, IV tubing and sets, catheters (urinary, cardiac), urine bags (uncontaminated), disposable gloves, contaminated plastic items, oxygen masks and tubing.
+   - BLUE BIN / WHITE PUNCTURE-PROOF CONTAINER (Sharps & Metallic): Needles and syringes with needles, scalpels and blades, scissors and forceps (disposable), glass ampoules and vials, metals from implants (wires, pins), broken glass items (slides, coverslips, capillary tubes).
+   - GREEN BIN / BLACK BAG (General/Non-hazardous): Food waste, flowers and plant waste, general packaging (cardboard, wrappers), paper waste, disposable dishes (uncontaminated), dust and sweepings from non-clinical areas, outer packaging of sterile items.
+
+3. WASTE FINDER PAGE: A searchable database of 20+ waste items with live search and colour-filter tabs. Users can type an item name and instantly see which bin it belongs to with a colour-coded result card.
+
+4. RULES & SAFETY PAGE: 9 key safety rules including: segregate at source, never recap needles by hand, always wear PPE, fill bins to 3/4 only, label all containers with biohazard symbol, collect waste within 48 hours (anatomical within 24 hours), maintain records for 5 years, report spills immediately, vaccination (Hepatitis B and Tetanus) mandatory for waste handlers. Also includes a Do's and Don'ts section.
+
+5. QUIZ PAGE: A static 10-question multiple choice quiz testing knowledge of bin colours for specific waste items. Gives instant feedback and a final score with motivational messages.
+
+6. AI ASSISTANT PAGE (current page): Three AI-powered tools:
+   - Smart Classifier: User describes a waste item in natural language, AI identifies the correct bin, explains why, gives disposal steps and safety warnings.
+   - AI Chat Assistant: Conversational chatbot (that's you) answering any question about waste segregation. Adapts tone based on role (healthcare staff or patient/visitor).
+   - AI Quiz Generator: Generates custom 5-question quizzes based on difficulty (easy/medium/hard), topic focus (sharps, infectious, plastics, general), and role.
+
+YOUR ROLE AS THE CHAT ASSISTANT:
+- You are helping a ${chatRole}.
+- Answer any question about biomedical waste segregation, bin colours, disposal rules, safety procedures, BMW Rules 2016, handling of specific waste items, needlestick injuries, PPE, legal penalties, or how to use this app.
+- Use simple language for patients, more technical/precise language for healthcare staff.
+- Keep responses concise — under 180 words. Use bullet points only when listing multiple items.
+- If asked which bin a specific item goes in, always give a clear, direct answer with the bin colour first.
+- Be friendly, helpful, and reassuring. Never refuse to answer a waste-related question.
+- If asked about the app itself, explain any feature clearly.`;
 
   try {
     const history = chatHistory.slice(-8);
@@ -1871,18 +2092,29 @@ async function generateAIQuiz() {
   const area = document.getElementById('aiQuizArea');
   area.innerHTML = `<div class="ai-quiz-status"><div class="ai-loader"><div class="ai-loader-dots"><span></span><span></span><span></span></div><div>Creating ${difficulty} questions about ${topic}…</div></div></div>`;
 
-  const systemPrompt = `You are a biomedical waste management quiz creator. Generate exactly 5 multiple-choice quiz questions about healthcare waste segregation (India BMW Rules 2016).
-Difficulty: ${difficulty}. Topic focus: ${topic}. Target audience: ${role}.
-Respond ONLY with a valid JSON array. No markdown, no explanation. Format:
+  const systemPrompt = `You are the AI Quiz Generator for MediWaste Guide, a healthcare waste segregation app for India based on BMW Management & Handling Rules 2016.
+
+APP CONTEXT — The 4 bins:
+- YELLOW: Infectious/hazardous (anatomical waste, soiled dressings, expired medicines, lab/microbiology waste, body fluids, placenta)
+- RED: Contaminated recyclable plastic (syringes without needles, IV lines, gloves, catheters, oxygen masks)
+- BLUE puncture-proof: Sharps and glass (needles with syringes, scalpels, blades, glass ampoules, broken glass slides)
+- GREEN/black bag: General non-hazardous (food, paper, flowers, uncontaminated packaging, cafeteria waste)
+
+Key rules: segregate at source, never recap needles by hand, fill bins to 3/4 only, label with biohazard symbol, collect within 48 hours (anatomical within 24 hours), maintain records 5 years, staff must be vaccinated (Hepatitis B + Tetanus).
+
+Generate exactly 5 multiple-choice quiz questions. Difficulty: ${difficulty}. Topic focus: ${topic}. Target audience: ${role}.
+Mix question types: which bin does X go in, what is the correct action, what does the rule say, true/false scenarios, safety procedures.
+
+Respond ONLY with a valid JSON array, no markdown, no explanation:
 [
   {
-    "question": "Question text here?",
+    "question": "Full question text?",
     "options": ["Option A", "Option B", "Option C", "Option D"],
     "correct": 0,
-    "explanation": "Why this answer is correct (1-2 sentences)"
+    "explanation": "Clear 1-2 sentence explanation of the correct answer referencing BMW rules where relevant."
   }
 ]
-The "correct" field is the 0-based index of the correct option. Make questions practical and relevant. Vary question types (which bin, what to do, regulations, safety).`;
+The "correct" field is the 0-based index of the correct option in the options array.`;
 
   try {
     const raw = await callClaude(systemPrompt, `Generate 5 ${difficulty} quiz questions about ${topic} for ${role}`);
@@ -1966,6 +2198,27 @@ function answerAIQ(idx) {
 function nextAIQ() {
   aiQuizIndex++;
   renderAIQuestion();
+}
+
+// ===== MOBILE NAV =====
+function toggleDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  const btn = document.getElementById('hamburgerBtn');
+  drawer.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+}
+
+function closeDrawer(e) {
+  if (e && e.target !== document.getElementById('mobileDrawer')) return;
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function setBottomNav(el) {
+  document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
 }
 
 // Add spin animation
